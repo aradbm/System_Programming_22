@@ -9,30 +9,30 @@ int main(){
 	printf("enter second number:\n");
 	scanf("%d",&b);
 	
-	printf("\nPrime numbers betweern a and b:");
+	printf("\nPrime numbers betweern a and b:  ");
 	// run from a to b on all numbers and check all functions
-	for(i=a;i<=b; i++)
+	for(int i=a;i<=b; i++)
 	{
-		if(isPrime(i))
-		printf(i);
+		if(isPrime(i)==1)
+		printf("%d  ",i);
 	}
-	printf("\nArmstrong numbers betweern a and b:");
-	for(i=a;i<=b; i++)
+	printf("\nArmstrong numbers betweern a and b:  ");
+	for(int i=a;i<=b; i++)
 	{
-		if(isArmstrong(i))
-		printf(i);
+		if(isArmstrong(i)==1)
+		printf("%d  ",i);
 	}
-	printf("\nStrong numbers betweern a and b:");
-	for(i=a;i<=b; i++)
+	printf("\nStrong numbers betweern a and b:  ");
+	for(int i=a;i<=b; i++)
 	{
-		if(isStrong(i))
-		printf(i);
+		if(isStrong(i)==1)
+		printf("%d  ",i);
 	}
-	printf("\nPalindrome numbers betweern a and b:");
-	for(i=a;i<=b; i++)
+	printf("\nPalindrome numbers betweern a and b:  ");
+	for(int i=a;i<=b; i++)
 	{
-		if(isPalindrome(i))
-		printf(i);
+		if(isPalindrome(i)==1)
+		printf("%d  ",i);
 	}
 	printf("\n");
     return 0;

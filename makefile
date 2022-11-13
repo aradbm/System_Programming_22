@@ -1,17 +1,24 @@
-CC=gcc //compiler to use
-AR=ar // static libary maker
-FLAGS= -Wall -g // flags for output
-OBJECTS_LOOPS = NumClass.h basicClassification.c advancedClassificationLoop.c
-OBJECTS_RECURSION = NumClass.h basicClassification.c advancedClassificationRecurtion.c
+CC=gcc
+AR=ar
+FLAGS= -Wall
+OBJECTS_LOOPS = basicClassification.c advancedClassificationLoop.c
+OBJECTS_RECURSION = basicClassification.c advancedClassificationRecursion.c
 
-mains: main.o libclassrec.a
-	$(CC) $(FLAGS)-o mains main.c
-maindloop: main.c libclassloops.so
-	$(CC) $(FLAGS) main.c
-maindrec: main.c libclassrec.so
-	$(CC) $(FLAGS) -o main.c 
+all: libclassloops.a libclassloops.so libclassrec.a libclassrec.so mains maind maindrec
+mains: main.c libclassrec.a NumClass.h
+	$(CC) $(FLAGS) -o mains main.c libclassrec.a NumClass.h
+maindloop: main.c libclassloops.so NumClass.h
+	$(CC) $(FLAGS) -o maindloop main.c ./libclassloops.so NumClass.h
+maindrec: main.c libclassrec.so NumClass.h
+	$(CC) $(FLAGS) -o maindrec main.c ./libclassrec.so NumClass.h
+	
+## 1. NumClass.h place is good?,2. mains doesnt work:
+##gcc -Wall -o mains main.c libclassrec.a NumClass.h
+##/usr/bin/ld: libclassrec.a: error adding symbols: archive has no index; run ranlib to add one
+##collect2: error: ld returned 1 exit status
+##make: *** [makefile:9: mains] Error 1
 
-all: libclassloops.a libclassloops.so libclassrec.a libclassrec.so 	
+
 libclassloops.a: $(OBJECTS_LOOPS)
 	$(AR) -rcs libclassloops.a $(OBJECTS_LOOPS)
 libclassloops.so: $(OBJECTS_LOOPS)
@@ -20,9 +27,7 @@ libclassrec.a: $(OBJECTS_RECURSION)
 	$(AR) -rcs libclassrec.a $(OBJECTS_RECURSION)
 libclassrec.so: $(OBJECTS_RECURSION)
 	$(CC) -shared -o libclassrec.so $(OBJECTS_RECURSION)
-mains.o: main.c NumClass.h
-	$(CC) $(FLAGS) -c mains.c
-
+	
 .PHONY: clean
 
 clean:
