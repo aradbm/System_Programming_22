@@ -35,12 +35,12 @@ int isPalindrome(int p)
 int isArmstrong_ad(int p,int a)
 {
 	if(p<10)
-		return Pow(p,3);
-	return Pow(p%10,3) + isArmstrong_ad(p/10,3);
+		return Pow(p,a);
+	return Pow(p%10,a) + isArmstrong_ad(p/10,a);
 }
 int isArmstrong(int p)
 {
-	int a = isArmstrong_ad(p,3);
+	int a = isArmstrong_ad(p,getLength(p));
 	if(p==a)
 		return 1;
 	return 0;

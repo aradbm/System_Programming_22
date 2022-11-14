@@ -37,10 +37,11 @@ int isPalindrome(int p)
 int isArmstrong(int p)
 {
 	int a = p;
+	int l = getLength(p);
 	int sum=0;
 	while(a!=0)
 	{
-		int x = Pow(a%10,3);
+		int x = Pow(a%10,l);
 		sum=sum+x;
 		a=a/10;
 	}
