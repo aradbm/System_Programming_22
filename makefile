@@ -2,33 +2,27 @@ CC=gcc
 AR=ar
 FLAGS= -Wall
 OBJECTS_LOOPS = basicClassification.c advancedClassificationLoop.c
-OBJECTS_RECURSION = basicClassification.c advancedClassificationRecursion.c
+OBJECTS_RECURSION = basicClassification.o advancedClassificationRecursion.o
+ALL_FILES = loops recursives recursived loopd mains maindloop maindrec
 
-all: libclassloops.a libclassloops.so libclassrec.a libclassrec.so mains maind maindrec
-mains: main.c libclassrec.a NumClass.h
-	$(CC) $(FLAGS) -o mains main.c libclassrec.a NumClass.h
-maindloop: main.c libclassloops.so NumClass.h
-	$(CC) $(FLAGS) -o maindloop main.c ./libclassloops.so NumClass.h
-maindrec: main.c libclassrec.so NumClass.h
-	$(CC) $(FLAGS) -o maindrec main.c ./libclassrec.so NumClass.h
-	
-## 1. NumClass.h place is good?,2. mains doesnt work:
-##gcc -Wall -o mains main.c libclassrec.a NumClass.h
-##/usr/bin/ld: libclassrec.a: error adding symbols: archive has no index; run ranlib to add one
-##collect2: error: ld returned 1 exit status
-##make: *** [makefile:9: mains] Error 1
+all: $(ALL_FILES)
+mains: main.c recursives
+	$(CC) $(FLAGS) -o mains main.c ./libclassrec.a
+maindloop: main.c loopd
+	$(CC) $(FLAGS) -o maindloop main.c ./libclassloops.so
+maindrec: main.c recursived
+	$(CC) $(FLAGS) -o maindrec main.c ./libclassrec.so
 
-
-libclassloops.a: $(OBJECTS_LOOPS)
+loops: $(OBJECTS_LOOPS)
 	$(AR) -rcs libclassloops.a $(OBJECTS_LOOPS)
-libclassloops.so: $(OBJECTS_LOOPS)
-	$(CC) -shared -o libclassloops.so $(OBJECTS_LOOPS)
-libclassrec.a: $(OBJECTS_RECURSION)
+recursives: $(OBJECTS_RECURSION)
 	$(AR) -rcs libclassrec.a $(OBJECTS_RECURSION)
-libclassrec.so: $(OBJECTS_RECURSION)
+loopd: $(OBJECTS_RECURSION) 
+	$(CC) -shared -o libclassloops.so $(OBJECTS_LOOPS)	
+recursived: $(OBJECTS_RECURSION)
 	$(CC) -shared -o libclassrec.so $(OBJECTS_RECURSION)
 	
 .PHONY: clean
 
 clean:
-	rm -f *.o *.a *.so mains maindloop maindrec
+	rm -f *.o *.a *.so $(ALL_FILES)
