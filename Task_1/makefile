@@ -9,9 +9,9 @@ all: $(ALL_FILES)
 mains: main.c recursives
 	$(CC) $(FLAGS) -o mains main.c ./libclassrec.a
 maindloop: main.c loopd
-	$(CC) $(FLAGS) -o maindloop main.c ./libclassloops.so
+	$(CC) -fPIC $(FLAGS) -o maindloop main.c ./libclassloops.so
 maindrec: main.c recursived
-	$(CC) $(FLAGS) -o maindrec main.c ./libclassrec.so
+	$(CC) -fPIC $(FLAGS) -o maindrec  main.c ./libclassrec.so
 
 loops: $(OBJECTS_LOOPS)
 	$(AR) -rcs libclassloops.a $(OBJECTS_LOOPS)
