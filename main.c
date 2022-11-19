@@ -3,7 +3,6 @@
 int main(){
 	int a;
 	int b; 
-	printf("Enter 2 integer numbers:\n");
 	if(scanf("%d%d",&a,&b)!=2)
 	{
 	printf("\nError! Give 2 integer numbers!");
