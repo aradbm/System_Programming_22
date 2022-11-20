@@ -28,6 +28,6 @@ int main(){
 		if(isStrong(i)==1)
 		printf(" %d",i);
 	}
-	printf("\n")
+	printf("\n");
 	return 0;
 }
