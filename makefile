@@ -3,7 +3,7 @@ AR=ar
 FLAGS= -Wall
 OBJECTS_LOOPS = basicClassification.c advancedClassificationLoop.c
 OBJECTS_RECURSION = basicClassification.o advancedClassificationRecursion.o
-ALL_FILES = loops recursives recursived loopd mains maindloop maindrec
+ALL_FILES = mains maindloop maindrec
 
 all: $(ALL_FILES)
 mains: main.c recursives
