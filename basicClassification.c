@@ -6,7 +6,7 @@ int a=1;
 	{
 	a=a*i;
 	}
-return a;
+return a; 
 }
 int isPrime(int p)
 {

@@ -18,9 +18,9 @@ loops: $(OBJECTS_LOOPS)
 recursives: $(OBJECTS_RECURSION)
 	$(AR) -rcs libclassrec.a $(OBJECTS_RECURSION)
 loopd: $(OBJECTS_RECURSION) 
-	$(CC) -shared -o libclassloops.so $(OBJECTS_LOOPS)	
+	$(CC) $(FLAGS) -shared -o libclassloops.so $(OBJECTS_LOOPS)	
 recursived: $(OBJECTS_RECURSION)
-	$(CC) -shared -o libclassrec.so $(OBJECTS_RECURSION)
+	$(CC) $(FLAGS) -shared -o libclassrec.so $(OBJECTS_RECURSION)
 	
 .PHONY: clean
 

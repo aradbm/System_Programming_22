@@ -3,12 +3,7 @@
 int main(){
 	int a;
 	int b; 
-	if(scanf("%d%d",&a,&b)!=2)
-	{
-	printf("\nError! Give 2 integer numbers!");
-	}
-	else
-	{
+	scanf("%d%d",&a,&b);
 	printf("The Armstrong numbers are:");
 	for(int i=a;i<=b; i++)
 	{
@@ -32,7 +27,6 @@ int main(){
 	{
 		if(isStrong(i)==1)
 		printf(" %d",i);
-	}
 	}
 	return 0;
 }
