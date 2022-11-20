@@ -10,7 +10,7 @@ int main(){
 		if(isArmstrong(i)==1)
 		printf(" %d",i);
 	}
-	printf("\nThe Palindrome are:");
+	printf("\nThe Palindromes are:");
 	for(int i=a;i<=b; i++)
 	{
 		if(isPalindrome(i)==1)
