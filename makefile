@@ -1,27 +1,33 @@
 CC=gcc
 AR=ar
 FLAGS= -Wall
-OBJECTS_LOOPS = basicClassification.c advancedClassificationLoop.c
-OBJECTS_RECURSION = basicClassification.o advancedClassificationRecursion.o
 ALL_FILES = mains maindloop maindrec
 
 all: $(ALL_FILES)
-mains: main.c recursives
-	$(CC) $(FLAGS) -o mains main.c ./libclassrec.a
-maindloop: main.c loopd
-	$(CC) -fPIC $(FLAGS) -o maindloop main.c ./libclassloops.so
-maindrec: main.c recursived
-	$(CC) -fPIC $(FLAGS) -o maindrec  main.c ./libclassrec.so
+mains: main.o recursives
+	$(CC) $(FLAGS) -o mains main.o ./libclassrec.a
+maindloop: main.o loopd
+	$(CC) -fPIC $(FLAGS) main.o ./libclassloops.so -o maindloop
+maindrec: main.o recursived
+	$(CC) -fPIC $(FLAGS) main.o ./libclassrec.so -o maindrec
 
-loops: $(OBJECTS_LOOPS)
-	$(AR) -rcs libclassloops.a $(OBJECTS_LOOPS)
-recursives: $(OBJECTS_RECURSION)
-	$(AR) -rcs libclassrec.a $(OBJECTS_RECURSION)
-loopd: $(OBJECTS_RECURSION) 
-	$(CC) $(FLAGS) -shared -o libclassloops.so $(OBJECTS_LOOPS)	
-recursived: $(OBJECTS_RECURSION)
-	$(CC) $(FLAGS) -shared -o libclassrec.so $(OBJECTS_RECURSION)
-	
+loops: basicClassification.o advancedClassificationLoop.o
+	$(AR) -rcs libclassloops.a basicClassification.o advancedClassificationLoop.o
+recursives: basicClassification.o advancedClassificationRecursion.o
+	$(AR) -rcs libclassrec.a basicClassification.o advancedClassificationRecursion.o
+loopd: basicClassification.c advancedClassificationLoop.c
+	$(CC) $(FLAGS) -shared -o ./libclassloops.so basicClassification.c advancedClassificationLoop.c
+recursived: basicClassification.c advancedClassificationRecursion.c
+	$(CC) $(FLAGS) -shared -o ./libclassrec.so basicClassification.c advancedClassificationRecursion.c
+
+main.o: main.c NumClass.h
+	$(CC) $(FLAGS) -c main.c
+basicClassification.o: basicClassification.c
+	$(CC) $(FLAGS) -c basicClassification.c
+advancedClassificationRecursion.o: advancedClassificationRecursion.c
+	$(CC) $(FLAGS) -c advancedClassificationRecursion.c
+advancedClassificationLoop.o: advancedClassificationLoop.c
+	$(CC) $(FLAGS) -c advancedClassificationLoop.c
 .PHONY: clean
 
 clean:
