@@ -1,7 +1,7 @@
 CC=gcc
 AR=ar
 FLAGS= -Wall
-ALL_FILES = mains maindloop maindrec
+ALL_FILES = mains maindloop maindrec loops recursives loopd recursived
 
 all: $(ALL_FILES)
 mains: main.o libclassrec.a
