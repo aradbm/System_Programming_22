@@ -1,6 +1,6 @@
 CC=gcc
 AR=ar
-FLAGS= -Wall
+FLAGS= -Wall -g
 ALL_FILES = mains maindloop maindrec loops recursives loopd recursived
 
 all: $(ALL_FILES)
@@ -21,18 +21,18 @@ libclassloops.a: basicClassification.o advancedClassificationLoop.o
 libclassrec.a: basicClassification.o advancedClassificationRecursion.o
 	$(AR) -rcs libclassrec.a basicClassification.o advancedClassificationRecursion.o
 libclassloops.so: basicClassification.c advancedClassificationLoop.c
-	$(CC) $(FLAGS) -shared -o ./libclassloops.so basicClassification.c advancedClassificationLoop.c
+	$(CC) $(FLAGS) -fPIC -shared -o ./libclassloops.so basicClassification.c advancedClassificationLoop.c
 libclassrec.so: basicClassification.c advancedClassificationRecursion.c
-	$(CC) $(FLAGS) -shared -o ./libclassrec.so basicClassification.c advancedClassificationRecursion.c
+	$(CC) $(FLAGS) -fPIC -shared -o ./libclassrec.so basicClassification.c advancedClassificationRecursion.c
 
 main.o: main.c NumClass.h
 	$(CC) $(FLAGS) -c main.c
 basicClassification.o: basicClassification.c
 	$(CC) $(FLAGS) -fPIC -c basicClassification.c
 advancedClassificationRecursion.o: advancedClassificationRecursion.c
-	$(CC) $(FLAGS) -fPIC -c advancedClassificationRecursion.c
+	$(CC) $(FLAGS) -c advancedClassificationRecursion.c
 advancedClassificationLoop.o: advancedClassificationLoop.c
-	$(CC) $(FLAGS) -fPIC -c advancedClassificationLoop.c
+	$(CC) $(FLAGS)  -c advancedClassificationLoop.c
 
 .PHONY: clean
 
