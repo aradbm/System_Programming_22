@@ -10,7 +10,7 @@ int factorial(int n) {
 
 int isPrime(int p) {
     int ans = 1;
-    if(p==0)
+    if (p == 0)
         return 0;
     if (p == 1 || p == 2)
         return 1;
@@ -22,8 +22,7 @@ int isPrime(int p) {
 }
 
 int isStrong(int p) {
-    if(p==0)
-    {
+    if (p == 0) {
         return 0;
     }
     int ans = 1;

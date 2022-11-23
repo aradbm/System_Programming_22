@@ -11,16 +11,16 @@ void get_mat(int arr[mat_len][mat_len]) {
 
 void path_exist(int i, int j, int arr[mat_len][mat_len]) {
     if (arr[i][j] != 0) {
-        printf("True");
+        printf("True\n");
     } else {
-        printf("False");
+        printf("False\n");
     }
 }
 
 void shortest_path(int i, int j, int arr[mat_len][mat_len]) {
-    if (arr[i][j]==0) {
-        printf("-1");
+    if (arr[i][j] == 0) {
+        printf("-1\n");
     } else {
-        printf("%d",arr[i][j]);
+        printf("%d\n", arr[i][j]);
     }
 }
