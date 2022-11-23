@@ -21,7 +21,7 @@ void floyd_warshall_algo(int arr[mat_len][mat_len]) {
 }
 
 int main() {
-    char to_exe='';
+    char to_exe = '';
     int i = 0, j = 0;
     int current_mat[mat_len][mat_len] = {0};
     to_exe = getchar();
@@ -45,25 +45,5 @@ int main() {
         to_exe = getchar();
     }
     exit_loop:;
-    printf("\n");
     return 0;
 }
-/*
-int main() {
-    printf("%d\n", mat_len);
-    int arr[][10] = {
-            {0, 3, 1, 0, 0, 2, 0, 0, 0, 0},
-            {3, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-            {1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 5, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 4, 1, 1},
-            {2, 0, 0, 0, 0, 0, 2, 0, 0, 0},
-            {0, 0, 0, 0, 0, 2, 0, 0, 0, 0},
-            {0, 0, 0, 5, 4, 0, 0, 0, 0, 2},
-            {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 1, 0, 0, 0, 0, 0}};
-    //get_mat(arr);
-    printf("%d", arr[2][2]);
-    return 0;
-}
- */
