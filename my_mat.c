@@ -10,7 +10,7 @@ void get_mat(int arr[mat_len][mat_len]) {
 }
 
 void path_exist(int i, int j, int arr[mat_len][mat_len]) {
-    if (arr[i][j] != 0) {
+    if (arr[i][j] != 0 && arr[i][j] != INT_MAX) {
         printf("True\n");
     } else {
         printf("False\n");
@@ -18,7 +18,7 @@ void path_exist(int i, int j, int arr[mat_len][mat_len]) {
 }
 
 void shortest_path(int i, int j, int arr[mat_len][mat_len]) {
-    if (arr[i][j] == 0) {
+    if (arr[i][j] == 0 || arr[i][j] == INT_MAX) {
         printf("-1\n");
     } else {
         printf("%d\n", arr[i][j]);
