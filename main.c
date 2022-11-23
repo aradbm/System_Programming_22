@@ -21,7 +21,7 @@ void floyd_warshall_algo(int arr[mat_len][mat_len]) {
 }
 
 int main() {
-    char to_exe;
+    char to_exe='';
     int i = 0, j = 0;
     int current_mat[mat_len][mat_len] = {0};
     to_exe = getchar();
@@ -33,13 +33,11 @@ int main() {
                 break;
             case 'B':
                 scanf("%d%d", &i, &j);
-                path_exist(i, j, current_mat
-                );
+                path_exist(i, j, current_mat);
                 break;
             case 'C':
                 scanf("%d%d", &i, &j);
-                shortest_path(i, j, current_mat
-                );
+                shortest_path(i, j, current_mat);
                 break;
             case 'D':
                 goto exit_loop;
@@ -47,6 +45,7 @@ int main() {
         to_exe = getchar();
     }
     exit_loop:;
+    printf("\n");
     return 0;
 }
 /*
