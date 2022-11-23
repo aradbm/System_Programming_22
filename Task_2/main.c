@@ -4,14 +4,20 @@
 
 void floyd_warshall_algo(int arr[mat_len][mat_len]) {
     size_t k, i, j;
-    for (k = 0; k < mat_len; k++)
+    for (k = 0; k < mat_len; k++) {
         for (i = 0; i < mat_len; i++) {
             for (j = 0; j < mat_len; j++) {
-                if (arr[i][j] > arr[i][k] + arr[k][j]) {
-                    arr[i][j] = arr[i][k] + arr[k][j];
+                if (arr[i][j] == 0 || (arr[i][k] + arr[k][j]) == 0) {
+                    if (arr[i][j] < (arr[i][k] + arr[k][j]))
+                        arr[i][j] = arr[i][k] + arr[k][j];
+                } else {
+                    if (arr[i][j] > arr[i][k] + arr[k][j]) {
+                        arr[i][j] = arr[i][k] + arr[k][j];
+                    }
                 }
             }
         }
+    }
 }
 
 int main() {
