@@ -6,7 +6,6 @@ void get_mat(int arr[mat_len][mat_len]) {
         for (int j = 0; j < mat_len; ++j) {
             int a;
             scanf("%d", &a);
-//            scanf("%d", &arr[i][j]);
             if (a == 0)
                 arr[i][j] = -1;
             else
