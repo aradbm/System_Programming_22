@@ -2,28 +2,24 @@
 #include <stddef.h>
 #include "my_mat.h"
 
-
-int max(int a, int b) {
-    if (a > b)
-        return a;
-    else
-        return b;
-}
-
 void floyd_warshall_algo(int arr[mat_len][mat_len]) {
     size_t k, i, j;
-    for (i = 0; i < mat_len; i++) {
-        for (j = 0; j < mat_len; j++) {
-            if (arr[i][j] == 0 && i != j)
-                arr[i][j] = INT_MAX;
-        }
-    }
-
     for (k = 0; k < mat_len; k++) {
         for (i = 0; i < mat_len; i++) {
             for (j = 0; j < mat_len; j++) {
-                if (arr[i][j] > arr[i][k] + arr[k][j]) {
-                    arr[i][j] = arr[i][k] + arr[k][j];
+                if (i == j)
+                    arr[i][j] = 0;
+                else {
+                    if ((arr[i][k] != -1) && (arr[k][j] != -1)) {
+                        int m = arr[i][k] + arr[k][j];
+                        if (arr[i][j] <= 0)
+                            arr[i][j] = m;
+                        else {
+                            if (arr[i][j] > arr[i][k] + arr[k][j]) {
+                                arr[i][j] = arr[i][k] + arr[k][j];
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -31,7 +27,7 @@ void floyd_warshall_algo(int arr[mat_len][mat_len]) {
 }
 
 int main() {
-    char to_exe = 'a';
+    char to_exe = 'D';
     int i = 0, j = 0;
     int current_mat[mat_len][mat_len] = {0};
     to_exe = getchar();
