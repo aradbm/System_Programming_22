@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include "my_mat.h"
 
-void floyd_warshall_algo(int arr[mat_len][mat_len]) {
+void floyd_warshall_algo(int arr[mat_len][mat_len]) { 
     size_t k, i, j;
     for (k = 0; k < mat_len; k++) {
         for (i = 0; i < mat_len; i++) {
