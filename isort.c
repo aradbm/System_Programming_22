@@ -33,6 +33,7 @@ void insertion_sort(int *arr, int l)
             j--;
             count++;
         }
+        // printarr(arr, l);
         if (i != j)
             shift_element((arr + j), count);
     }
