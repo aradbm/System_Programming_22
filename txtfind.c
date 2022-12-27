@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #define LINE 256
-#define WORD 30
-#define MAXLINES 250
 // check if the two strings are similar with at most n differences
 // S=check_string T=string given by the user
 int similiar(char *s, char *t, int n)
@@ -63,7 +61,8 @@ void print_lines(char *str)
     {
         if (substring(line, str) == 1)
         {
-            printf("%s", line);
+            char *token = strtok(line, "\r");
+            printf("%s\n", token);
         }
     }
 }
