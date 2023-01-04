@@ -1,16 +1,19 @@
 CC=gcc
 FLAGS= -Wall -g
 
-all: isort txtfind
-isort: isort.o
-	$(CC) $(FLAGS) isort.o -o isort
-isort.o: isort.c
-	$(CC) $(FLAGS) -c isort.c
-txtfind: txtfind.o
-	$(CC) $(FLAGS) txtfind.o -o txtfind
-txtfind.o: txtfind.c
-	$(CC) $(FLAGS) -c txtfind.c
+all: graph
+graph: main.o edges.o nodes.o algo.o
+	$(CC) $(FLAGS) main.o edges.o nodes.o algo.o -o graph
+
+main.o: main.c
+	$(CC) $(FLAGS) -c main.c
+edges.o: edges.c
+	$(CC) $(FLAGS) -c edges.c
+nodes.o: nodes.c
+	$(CC) $(FLAGS) -c nodes.c
+algo.o: algo.c
+	$(CC) $(FLAGS) -c algo.c
 
 .PHONY: clean
 clean:
-	rm -f *.o *.a *.so txtfind isort
+	rm -f *.o *.a *.so graph
