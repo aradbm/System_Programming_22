@@ -1,10 +1,11 @@
 CC=gcc
-FLAGS= -Wall -g
+#FLAGS= -Wall -g
 
+#edges.o nodes.o algo.o
 all: graph
-graph: main.o edges.o nodes.o algo.o
-	$(CC) $(FLAGS) main.o edges.o nodes.o algo.o -o graph
-
+graph: main.o graph.h
+	$(CC) $(FLAGS) main.o -o graph
+#edges.o nodes.o algo.o
 main.o: main.c
 	$(CC) $(FLAGS) -c main.c
 edges.o: edges.c
