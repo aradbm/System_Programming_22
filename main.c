@@ -15,7 +15,6 @@ int main()
             build_graph_cmd(head);
             break;
         case 'B':
-            printf("got here\n");
             insert_node_cmd(head);
             break;
         case 'D':
@@ -26,6 +25,7 @@ int main()
             break;
         case 'T':
             TSP_cmd(*head);
+            break;
         case 'P':
             printGraph_cmd(*head);
             break;

@@ -1,10 +1,17 @@
-// To Do:
-// create freeEdges method
-// algorithm functions
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
-/////////////////// edge&node handling functions //////////////////
+void free_node(pnode node2remove) // deleting edges out of node + node itself
+{
+    pedge e = node2remove->edges;
+    while (e != NULL)
+    {
+        pedge temp = e;
+        e = e->next;
+        free(temp);
+    }
+    free(node2remove);
+}
 pedge create_new_edge(int weight, pnode dest_node)
 {
     pedge p = (pedge)malloc(sizeof(edge));
@@ -70,20 +77,19 @@ void build_graph_cmd(pnode *head)
     {
         scanf(" %c", &cmd_ch);
         insert_node_cmd(head);
-        // printf("%c\n", cmd_ch);
     }
 }
 // B: insert node
-void free_edges(pedge *edges_p)
+void free_edges(pnode node_ed)
 {
-    pedge e = *edges_p;
+    pedge e = node_ed->edges;
     while (e != NULL)
     {
         pedge tmp = e;
         e = e->next;
         free(tmp);
     }
-    *edges_p = NULL;
+    node_ed->edges = NULL;
 }
 void insert_node_cmd(pnode *head)
 {
@@ -101,10 +107,11 @@ void insert_node_cmd(pnode *head)
         p->next = start_node;
     }
     else
+    {
+        free_edges(start_node);
         start_node->edges = NULL;
-    // free_edges((start_node->edges));
+    }
     int i, weight; // i is destinaion, j is weight
-    // printf("enter couple of numbers: dest, weight\n");
     while (1)
     {
         if (scanf(" %d", &i) != 1)
@@ -117,10 +124,8 @@ void insert_node_cmd(pnode *head)
         }
         pnode dest_node = findNode(i, head);
         add_edge_to_node(weight, start_node, dest_node);
-        // printGraph_cmd(*head);
     }
 }
-
 // delete graph
 void deleteGraph_cmd(pnode *head)
 {
@@ -129,13 +134,14 @@ void deleteGraph_cmd(pnode *head)
     {
         pnode tmp = p;
         p = p->next;
-        free(tmp);
+        free_node(tmp);
     }
     *head = NULL;
 }
 // print graph for self debug
 void printGraph_cmd(pnode head)
 {
+    printf("--------------------<graph>--------------------\n");
     pnode p = head;
     while (p != NULL)
     {
@@ -149,63 +155,56 @@ void printGraph_cmd(pnode head)
         printf("\n");
         p = p->next;
     }
+    printf("-----------------------------------------------\n");
 }
 // D: Delete node
-void remove_edge_by_dest(pnode cur_node, int node_n)
+void remove_edges_by_dest(pnode *head, int n)
 {
-    if (node_n == cur_node->node_num)
+    pnode p = *head;
+    pedge temp = NULL;
+    while (p != NULL) // find edge to node node_n
     {
-        return;
-    }
-    pedge q = cur_node->edges;
-    pedge temp;
-    if (q == NULL)
-    {
-        return;
-    }
-    if (q->endpoint->node_num == node_n)
-    {
-        temp = q;
-        cur_node->edges->next = q->next;
-        free(temp);
-    }
-    while (q->next != NULL)
-    {
-        if (q->next->endpoint->node_num == node_n)
+        pedge e = p->edges; // q is a pointer to a pointer to the first edge in the list
+        if (e != NULL)
         {
-            temp = q->next;
-            q->next = q->next->next;
-            free(temp);
+            if (e->endpoint->node_num == n)
+            {
+                temp = e;
+                p->edges = e->next;
+                free(temp);
+            }
+            else
+            {
+                while (e->next != NULL)
+                {
+                    if (e->next->endpoint->node_num == n)
+                    {
+                        temp = e->next;
+                        e->next = e->next->next;
+                        free(temp);
+                        break;
+                    }
+                    e = e->next;
+                }
+            }
         }
+        p = p->next;
     }
 }
 void delete_node_cmd(pnode *head)
 {
-    int node_n = 6;
-    printf("node number to remove from graph: \n");
-    // scanf("%d", &node_n);
-
-    // remove all edges to node_num
-    pnode p = *head;
-    while (p != NULL)
-    {
-        printf("%d\n", p->node_num);
-        remove_edge_by_dest(p, node_n);
-        p = p->next;
-    }
-    printf("got here \n");
-    // remove the connection in the linked nodes
+    int node_n = 0;
+    scanf(" %d", &node_n);
+    pnode p = findNode(node_n, head);
+    remove_edges_by_dest(head, node_n); // removing all the edges with the null endpoint
     p = *head;
-    printGraph_cmd(*head);
-    pnode temp;
-    while (p->next->node_num != node_n)
+    while (p->next->node_num != node_n) // removing the node from the list
     {
         p = p->next;
     }
-    temp = p->next;
+    pnode temp = p->next;
     p->next = p->next->next;
-    // free node_num
-    free(temp);
+    free_node(temp);
 }
 // S: shortest path from given i to j
 void shortsPath_cmd(pnode head)
