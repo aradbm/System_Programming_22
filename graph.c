@@ -136,12 +136,11 @@ void deleteGraph_cmd(pnode *head)
         p = p->next;
         free_node(tmp);
     }
-    *head = NULL;
 }
 // print graph for self debug
 void printGraph_cmd(pnode head)
 {
-    printf("--------------------<graph>--------------------\n");
+    printf("--------------------!graph!--------------------\n");
     pnode p = head;
     while (p != NULL)
     {

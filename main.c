@@ -4,6 +4,7 @@
 
 int main()
 {
+    int a = 1;
     pnode *head = (pnode *)malloc(sizeof(pnode));
     char cmd_ch = 'b';
     while (scanf(" %c", &cmd_ch) == 1)
@@ -11,8 +12,16 @@ int main()
         switch (cmd_ch)
         {
         case 'A':
-            deleteGraph_cmd(head);
-            build_graph_cmd(head);
+            if (a)
+            {
+                build_graph_cmd(head);
+                a = 0;
+            }
+            else
+            {
+                deleteGraph_cmd(head);
+                build_graph_cmd(head);
+            }
             break;
         case 'B':
             insert_node_cmd(head);
@@ -31,5 +40,7 @@ int main()
             break;
         }
     }
+    deleteGraph_cmd(head);
+    free(head);
     return 0;
 }
