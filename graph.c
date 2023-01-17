@@ -266,7 +266,7 @@ void shortsPath_cmd(pnode head)
     {
         return;
     }
-    printf("Dijsktra shortest path %d \n", Bellman_Ford(head, i, j));
+    printf("Dijsktra shortest path: %d \n", Bellman_Ford(head, i, j));
 }
 
 // T: TSP algo on all graph

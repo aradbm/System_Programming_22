@@ -15,8 +15,6 @@ typedef struct GRAPH_NODE_
     int node_num;
     pedge edges;
     int curr_sp;
-    // pnode pi;
-    int visited;
     struct GRAPH_NODE_ *next;
 } node, *pnode;
 
