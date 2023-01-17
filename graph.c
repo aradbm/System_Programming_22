@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <limits.h>
+#include <string.h>
 #include <stdlib.h>
 #include "graph.h"
 void free_node(pnode node2remove) // deleting edges out of node + node itself
@@ -35,9 +37,9 @@ void add_edge_to_node(int weight, pnode start_node, pnode dest_node)
     }
     e->next = p;
 }
-pnode findNode(int name, pnode *head)
+pnode findNode(int name, pnode head)
 {
-    pnode p = *head;
+    pnode p = head;
     while (p != NULL)
     {
         if (p->node_num == name)
@@ -52,6 +54,7 @@ pnode newNode(int name, pnode next)
     p->node_num = name;
     p->next = next;
     p->edges = NULL;
+    // p->pi = NULL;
     return p;
 }
 ////////////////////////// cmd functions //////////////////////////
@@ -59,20 +62,16 @@ pnode newNode(int name, pnode next)
 void build_graph_cmd(pnode *head)
 {
     int n = 0;
-    // printf("Enter number of nodes: \n");
     scanf("%d", &n);
     pnode p = newNode(0, NULL);
     *head = p;
-    // for to create n nodes
     for (int i = 1; i < n; i++)
     {
         pnode q = newNode(i, NULL);
         p->next = q;
         p = q;
     }
-    char cmd_ch; // if n than start insert node
-    // printf("Enter 'n' to insert data: \n");
-    // runs n times
+    char cmd_ch;
     for (size_t i = 0; i < n; i++)
     {
         scanf(" %c", &cmd_ch);
@@ -94,9 +93,9 @@ void free_edges(pnode node_ed)
 void insert_node_cmd(pnode *head)
 {
     int node_num = 0;
-    scanf(" %d", &node_num);                     // get the node number to create / change
-    pnode start_node = findNode(node_num, head); // find node number n
-    if (start_node == NULL)                      // create new node - if exist remove edges
+    scanf(" %d", &node_num);                      // get the node number to create / change
+    pnode start_node = findNode(node_num, *head); // find node number n
+    if (start_node == NULL)                       // create new node - if exist remove edges
     {
         start_node = newNode(node_num, NULL);
         pnode p = *head;
@@ -122,7 +121,7 @@ void insert_node_cmd(pnode *head)
         {
             break;
         }
-        pnode dest_node = findNode(i, head);
+        pnode dest_node = findNode(i, *head);
         add_edge_to_node(weight, start_node, dest_node);
     }
 }
@@ -194,7 +193,7 @@ void delete_node_cmd(pnode *head)
 {
     int node_n = 0;
     scanf(" %d", &node_n);
-    pnode p = findNode(node_n, head);
+    pnode p = findNode(node_n, *head);
     remove_edges_by_dest(head, node_n); // removing all the edges with the null endpoint
     p = *head;
     while (p->next->node_num != node_n) // removing the node from the list
@@ -205,11 +204,144 @@ void delete_node_cmd(pnode *head)
     p->next = p->next->next;
     free_node(temp);
 }
+/*
+
+*/
+void relax(pedge e, pnode strt) // strt -----e-----> e->endpoint
+{                               // check if e->endpoint < weight + strt
+    if (strt->curr_sp == INT_MAX)
+    {
+        return;
+    }
+    if (e->endpoint->curr_sp > strt->curr_sp + e->weight)
+    {
+        e->endpoint->curr_sp = strt->curr_sp + e->weight;
+    }
+}
+// ----------------------- belman ford algo ------------------------
+int Bellman_Ford(pnode head, int strt, int end)
+{
+    pnode e = head;
+    while (e != NULL) // reseting all nodes to INT_MAX
+    {
+        e->curr_sp = INT_MAX;
+        e = e->next;
+    }
+    pnode p = findNode(strt, head);
+    p->curr_sp = 0;
+    e = head;
+    while (e->next != NULL) // run |E|-1 TIMES
+    {
+        pnode temp_head = head;
+        while (temp_head != NULL) // run on all edges, and relax them
+        {
+            pedge edge2relax = temp_head->edges;
+            while (edge2relax != NULL)
+            {
+                relax(edge2relax, temp_head);
+                edge2relax = edge2relax->next;
+            }
+            temp_head = temp_head->next;
+        }
+        e = e->next;
+    }
+    // printf("got here, %d\n", INT_MAX);
+    pnode jnode = findNode(end, head); // checking the end node shortest path from start
+    if (jnode->curr_sp < 0 || jnode->curr_sp == INT_MAX)
+    {
+        return -1;
+    }
+    return jnode->curr_sp;
+}
+
 // S: shortest path from given i to j
 void shortsPath_cmd(pnode head)
 {
+    int i, j;
+    if (scanf(" %d", &i) != 1)
+    {
+        return;
+    }
+    if (scanf(" %d", &j) != 1)
+    {
+        return;
+    }
+    printf("Dijsktra shortest path %d \n", Bellman_Ford(head, i, j));
 }
+
 // T: TSP algo on all graph
+// int calc_path(pnode head, int *arr)
+// {
+//     if (arr == NULL)
+//     {
+//         return -1;
+//     }
+//     // if (*(arr + 1) == NULL)
+//     // {
+//     //     return 0;
+//     // }
+//     // while (*arr)
+//     // {
+//     //     /* code */
+//     // }
+//     return -1;
+// }
+int calc_path(pnode head, int *num, int n)
+{
+    int i;
+    int path = 0, temp_path;
+    for (i = 0; i < n - 1; i++)
+    {
+        // printf("%d ", num[i]);
+        temp_path = Bellman_Ford(head, num[i], num[i + 1]);
+        if (temp_path < 0)
+        {
+            return INT_MAX;
+        }
+        path += temp_path;
+    }
+    // printf("\n");
+    return path;
+}
+int calc_permutaions_min(pnode head, int *arr, int size)
+{
+    int temp, temp_min;
+    int i, j;
+    int min = INT_MAX;
+    for (j = 1; j <= size; j++)
+    {
+        for (i = 0; i < size - 1; i++)
+        {
+            temp = arr[i];
+            arr[i] = arr[i + 1];
+            arr[i + 1] = temp;
+            temp_min = calc_path(head, arr, size);
+            if (temp_min < min)
+            {
+                min = temp_min;
+            }
+        }
+    }
+    return min;
+}
 void TSP_cmd(pnode head)
 {
+    int k, j; // how many nodes to save
+    if (scanf(" %d", &k) != 1)
+    {
+        return;
+    }
+    int *arr = (int *)malloc(sizeof(int) * k);
+    for (size_t i = 0; i < k; i++)
+    {
+        scanf(" %d", &j);
+        *(arr + i) = j;
+    }
+    int minpath = calc_permutaions_min(head, arr, k); // for every permutaion of arr, calculate the path
+    if (minpath == INT_MAX)
+    {
+        minpath = -1;
+    }
+    free(arr);
+    printf("TSP shortest path: %d \n", minpath);
 }
