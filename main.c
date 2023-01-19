@@ -32,7 +32,7 @@ int main()
             shortsPath_cmd(*head);
             break;
         case 'T':
-            TSP_cmd(*head);
+            TSP_cmd(head);
             break;
         case 'P':
             printGraph_cmd(*head);

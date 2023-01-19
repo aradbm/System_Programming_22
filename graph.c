@@ -268,64 +268,55 @@ void shortsPath_cmd(pnode head)
     }
     printf("Dijsktra shortest path: %d \n", Bellman_Ford(head, i, j));
 }
-
-// T: TSP algo on all graph
-// int calc_path(pnode head, int *arr)
-// {
-//     if (arr == NULL)
-//     {
-//         return -1;
-//     }
-//     // if (*(arr + 1) == NULL)
-//     // {
-//     //     return 0;
-//     // }
-//     // while (*arr)
-//     // {
-//     //     /* code */
-//     // }
-//     return -1;
-// }
-int calc_path(pnode head, int *num, int n)
+// T: TSP
+int curr_min = INT_MAX;
+void calc_path(pnode head, int *num, int n)
 {
     int i;
     int path = 0, temp_path;
     for (i = 0; i < n - 1; i++)
     {
-        // printf("%d ", num[i]);
         temp_path = Bellman_Ford(head, num[i], num[i + 1]);
-        if (temp_path < 0)
+        if (temp_path < 0 || temp_path == -1)
         {
-            return INT_MAX;
+            path = INT_MAX;
+            break;
         }
         path += temp_path;
     }
-    // printf("\n");
-    return path;
-}
-int calc_permutaions_min(pnode head, int *arr, int size)
-{
-    int temp, temp_min;
-    int i, j;
-    int min = INT_MAX;
-    for (j = 1; j <= size; j++)
+    if (path < curr_min)
     {
-        for (i = 0; i < size - 1; i++)
-        {
-            temp = arr[i];
-            arr[i] = arr[i + 1];
-            arr[i + 1] = temp;
-            temp_min = calc_path(head, arr, size);
-            if (temp_min < min)
-            {
-                min = temp_min;
-            }
-        }
+        curr_min = path;
     }
-    return min;
 }
-void TSP_cmd(pnode head)
+void calc_perm(pnode *head, int *arr, int n, int index)
 {
+    int *temp_arr = (int *)malloc(n * sizeof(int));
+    if (index == n)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            temp_arr[i] = arr[i];
+        }
+        calc_path(*head, temp_arr, n);
+        free(temp_arr);
+        return;
+    }
+    for (int i = index; i < n; i++)
+    {
+        int temp = arr[index];
+        arr[index] = arr[i];
+        arr[i] = temp;
+        calc_perm(head, arr, n, index + 1);
+        temp = arr[index];
+        arr[index] = arr[i];
+        arr[i] = temp;
+    }
+    free(temp_arr);
+}
+void TSP_cmd(pnode *head)
+{
+    curr_min = INT_MAX;
     int k, j; // how many nodes to save
     if (scanf(" %d", &k) != 1)
     {
@@ -337,11 +328,14 @@ void TSP_cmd(pnode head)
         scanf(" %d", &j);
         *(arr + i) = j;
     }
-    int minpath = calc_permutaions_min(head, arr, k); // for every permutaion of arr, calculate the path
-    if (minpath == INT_MAX)
+    calc_perm(head, arr, k, 0);
+    if (curr_min == INT_MAX)
     {
-        minpath = -1;
+        printf("TSP shortest path: %d \n", -1);
+    }
+    else
+    {
+        printf("TSP shortest path: %d \n", curr_min);
     }
     free(arr);
-    printf("TSP shortest path: %d \n", minpath);
 }
